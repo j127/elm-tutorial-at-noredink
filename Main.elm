@@ -8,8 +8,8 @@ import LightButton
 
 
 type alias Model =
-    { isOn : Bool
-    , numberoOfMoves : Int
+    { isOn : List Bool
+    , numberOfMoves : Int
     }
 
 
@@ -21,14 +21,14 @@ initialModel =
 
 
 type Msg
-    = Toggle
+    = Toggle Int
     | Reset
 
 
 toggleButton : Int -> List Bool -> List Bool
-toggleButton indexToToggle List =
+toggleButton indexToToggle list =
     List.indexedMap
-        (\index bool -> 
+        (\index bool ->
             if index == indexToToggle then
                 not bool
             else
@@ -42,33 +42,29 @@ update msg model =
     case msg of
         Toggle indexToToggle ->
             { model
-                | isOn = toggleButton
+                | isOn =
+                    toggleButton
                     indexToToggle
                     model.isOn
-                , numberOfMoves = model.numberOfMoves + 1
+                , numberOfMoves =
+                    model.numberOfMoves + 1
             }
 
         Reset ->
             initialModel
 
 
-
-lightButton : Bool -> Html.Html Msg
-lightButton index isOn =
-    Html.div
-        [ Html.div [] ( List.map lightButton model.isOn )
-        , Html.button
-            [ ("background-color", colorForBool isOn )
-            , ( "width" , "150px" )
-            , ( "height", "150px" )
-            ]
-        , Html.Events.onClick (Toggle index)
-        ]
-        []
-
-
+view : Model -> Html.Html Msg
 view model =
-    Html.text (toString model)
+    Html.div []
+        [ Html.App.map Toggle
+            (Html.div [] (List.indexedMap LightButton.view model.isOn))
+            , Html.button
+                [ Html.Events.onClick Reset ]
+                [ Html.text "Reset" ]
+            , Html.hr [] []
+            , Html.text (toString model)
+        ]
 
 main : Program Never
 main = 
