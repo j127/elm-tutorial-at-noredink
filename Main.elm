@@ -67,7 +67,7 @@ view model =
         ]
 
 main : Program Never
-main = 
+main =
         Html.App.beginnerProgram
         { model = initialModel
         , update = update
