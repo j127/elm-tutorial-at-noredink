@@ -2,7 +2,6 @@ module Main exposing (..)
 
 import Html
 import Html.App
-import Html.Attributes
 import Html.Events
 import LightButton
 
