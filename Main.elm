@@ -43,8 +43,8 @@ update msg model =
             { model
                 | isOn =
                     toggleButton
-                    indexToToggle
-                    model.isOn
+                        indexToToggle
+                        model.isOn
                 , numberOfMoves =
                     model.numberOfMoves + 1
             }
@@ -58,16 +58,17 @@ view model =
     Html.div []
         [ Html.App.map Toggle
             (Html.div [] (List.indexedMap LightButton.view model.isOn))
-            , Html.button
-                [ Html.Events.onClick Reset ]
-                [ Html.text "Reset" ]
-            , Html.hr [] []
-            , Html.text (toString model)
+        , Html.button
+            [ Html.Events.onClick Reset ]
+            [ Html.text "Reset" ]
+        , Html.hr [] []
+        , Html.text (toString model)
         ]
+
 
 main : Program Never
 main =
-        Html.App.beginnerProgram
+    Html.App.beginnerProgram
         { model = initialModel
         , update = update
         , view = view
